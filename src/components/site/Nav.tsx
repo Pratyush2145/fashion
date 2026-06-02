@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Search, User, Heart, ShoppingBag, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -35,12 +34,12 @@ export function Nav() {
         </div>
 
         {/* Center logo */}
-        <Link
-          to="/"
+        <a
+          href="/"
           className="font-serif text-xl lg:text-2xl tracking-[0.3em] whitespace-nowrap justify-self-center"
         >
           MAISON<span className="text-[color:var(--gold)]">.</span>
-        </Link>
+        </a>
 
         {/* Right */}
         <div className="flex items-center justify-end gap-5 xl:gap-7 min-w-0">
