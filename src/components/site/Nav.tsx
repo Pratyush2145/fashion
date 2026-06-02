@@ -1,11 +1,18 @@
 import { Search, User, Heart, ShoppingBag, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 
 const leftLinks = ["New", "Women", "Men"];
 const rightLinks = ["Accessories", "Lookbook", "Journal"];
 
-export function Nav() {
+interface NavProps {
+  onCartClick?: () => void;
+}
+
+export function Nav({ onCartClick }: NavProps) {
   const [scrolled, setScrolled] = useState(false);
+  const { cartCount, wishlist } = useCart();
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
@@ -65,18 +72,26 @@ export function Nav() {
             </button>
             <button
               aria-label="Wishlist"
-              className="hidden sm:block hover:text-[color:var(--gold)] transition-colors"
+              className="hidden sm:block hover:text-[color:var(--gold)] transition-colors relative"
             >
               <Heart className="w-[18px] h-[18px]" />
+              {wishlist.length > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 text-[10px] font-mono bg-[color:var(--gold)] text-[color:var(--noir)] rounded-full w-4 h-4 flex items-center justify-center">
+                  {wishlist.length}
+                </span>
+              )}
             </button>
             <button
-              aria-label="Bag"
+              onClick={onCartClick}
+              aria-label="Shopping bag"
               className="relative hover:text-[color:var(--gold)] transition-colors"
             >
               <ShoppingBag className="w-[18px] h-[18px]" />
-              <span className="absolute -top-1.5 -right-1.5 text-[10px] font-mono bg-[color:var(--gold)] text-[color:var(--noir)] rounded-full w-4 h-4 flex items-center justify-center">
-                2
-              </span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 text-[10px] font-mono bg-[color:var(--gold)] text-[color:var(--noir)] rounded-full w-4 h-4 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
             </button>
           </div>
         </div>

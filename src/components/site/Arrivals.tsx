@@ -6,16 +6,18 @@ import p3 from "@/assets/product-3.jpg";
 import p4 from "@/assets/product-4.jpg";
 
 const products = [
-  { image: p1, name: "Cashmere Cocoon Coat", category: "Outerwear", price: "€1,890", badge: "New" },
-  { image: p2, name: "Nappa Leather Blazer", category: "Tailoring", price: "€2,450" },
+  { id: "p1", image: p1, name: "Cashmere Cocoon Coat", category: "Outerwear", price: "€1,890", priceNum: 1890, badge: "New" },
+  { id: "p2", image: p2, name: "Nappa Leather Blazer", category: "Tailoring", price: "€2,450", priceNum: 2450 },
   {
+    id: "p3",
     image: p3,
     name: "Silk Bias Slip Dress",
     category: "Eveningwear",
     price: "€1,120",
+    priceNum: 1120,
     badge: "Atelier",
   },
-  { image: p4, name: "Gilded Mini Tote", category: "Accessories", price: "€980", badge: "Limited" },
+  { id: "p4", image: p4, name: "Gilded Mini Tote", category: "Accessories", price: "€980", priceNum: 980, badge: "Limited" },
 ];
 
 export function Arrivals() {

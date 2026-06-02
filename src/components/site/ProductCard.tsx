@@ -1,14 +1,32 @@
 import { Heart, Plus } from "lucide-react";
+import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 
 interface Props {
+  id: string;
   image: string;
   name: string;
   category: string;
   price: string;
+  priceNum: number;
   badge?: string;
 }
 
-export function ProductCard({ image, name, category, price, badge }: Props) {
+export function ProductCard({ id, image, name, category, price, priceNum, badge }: Props) {
+  const { toggleWishlist, isInWishlist, addToCart } = useCart();
+  const [showAdded, setShowAdded] = useState(false);
+  const inWishlist = isInWishlist(id);
+
+  const handleAddToCart = () => {
+    addToCart({ id, name, price: priceNum, image, category });
+    setShowAdded(true);
+    setTimeout(() => setShowAdded(false), 2000);
+  };
+
+  const handleWishlist = () => {
+    toggleWishlist({ id, name, price: priceNum, image, category });
+  };
+
   return (
     <article className="group cursor-pointer">
       <div className="relative aspect-[4/5] overflow-hidden bg-[color:var(--muted)]">
@@ -26,13 +44,19 @@ export function ProductCard({ image, name, category, price, badge }: Props) {
           </span>
         )}
         <button
+          onClick={handleWishlist}
           aria-label="Wishlist"
-          className="absolute top-4 right-4 w-9 h-9 rounded-full glass flex items-center justify-center opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 hover:bg-[color:var(--ivory)]"
+          className={`absolute top-4 right-4 w-9 h-9 rounded-full glass flex items-center justify-center opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 hover:bg-[color:var(--ivory)] ${
+            inWishlist ? "opacity-100 translate-y-0 fill-[color:var(--gold)]" : ""
+          }`}
         >
-          <Heart className="w-4 h-4" />
+          <Heart className="w-4 h-4" fill={inWishlist ? "currentColor" : "none"} />
         </button>
-        <button className="absolute inset-x-4 bottom-4 bg-[color:var(--noir)] text-[color:var(--ivory)] text-[10px] uppercase tracking-[0.3em] font-medium py-3 flex items-center justify-center gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-          <Plus className="w-3.5 h-3.5" /> Quick Add
+        <button
+          onClick={handleAddToCart}
+          className="absolute inset-x-4 bottom-4 bg-[color:var(--noir)] text-[color:var(--ivory)] text-[10px] uppercase tracking-[0.3em] font-medium py-3 flex items-center justify-center gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 hover:bg-[color:var(--ivory)] hover:text-[color:var(--noir)]"
+        >
+          <Plus className="w-3.5 h-3.5" /> {showAdded ? "Added!" : "Quick Add"}
         </button>
       </div>
       <div className="mt-5 flex items-start justify-between gap-4">
